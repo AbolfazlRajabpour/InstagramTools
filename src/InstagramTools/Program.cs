@@ -19,10 +19,11 @@ namespace InstagramTools
 
         private static void Main(string[] args)
         {
-            var result = Task.Run(MainAsync).GetAwaiter().GetResult();
-            if (result)
-                return;
-            Console.ReadKey();
+            MainAsync().Wait();
+            // var result = Task.Run(MainAsync).GetAwaiter().GetResult();
+            // if (result)
+            //     return;
+            // Console.ReadKey();
         }
 
         public static async Task<bool> MainAsync()
@@ -96,22 +97,27 @@ namespace InstagramTools
                 //    state.CopyTo(fileStream);
                 //}
 
-                Console.WriteLine("Press 1 to Show User Overview");
-                Console.WriteLine("Press 2 to UnFollow NonFollower");
-
-                var samplesMap = new Dictionary<ConsoleKey, ICommand>
+                var commands = new Dictionary<ConsoleKey, ICommand>
                 {
                     [ConsoleKey.D1] = new Overview(_instaApi),
                     [ConsoleKey.D2] = new UnFollowNonFollower(_instaApi),
                 };
-                var key = Console.ReadKey();
-                Console.WriteLine(Environment.NewLine);
-                if (samplesMap.ContainsKey(key.Key))
-                    await samplesMap[key.Key].Do();
-                Console.WriteLine("Done. Press esc key to exit...");
 
-                key = Console.ReadKey();
-                return key.Key == ConsoleKey.Escape;
+
+                ConsoleKeyInfo key;
+                do
+                {
+                    Console.WriteLine("Press 1 to Show User Overview");
+                    Console.WriteLine("Press 2 to UnFollow NonFollower");
+                    Console.WriteLine("Press esc key to exit");
+
+                    key = Console.ReadKey();
+                    Console.WriteLine(Environment.NewLine);
+                    if (commands.ContainsKey(key.Key))
+                        await commands[key.Key].Do();
+
+                } while (key.Key != ConsoleKey.Escape);
+
             }
             catch (Exception ex)
             {
