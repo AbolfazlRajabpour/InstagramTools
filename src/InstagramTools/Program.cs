@@ -38,7 +38,7 @@ namespace InstagramTools
 
                 Console.Write("please Enter Password:");
                 var password = Console.ReadLine();
-
+              
                 var userSession = new UserSessionData
                 {
                     UserName = userName,
@@ -101,6 +101,7 @@ namespace InstagramTools
                 {
                     [ConsoleKey.D1] = new Overview(_instaApi),
                     [ConsoleKey.D2] = new UnFollowNonFollower(_instaApi),
+                    [ConsoleKey.D3] = new UnFollowAll(_instaApi),
                 };
 
 
@@ -109,6 +110,7 @@ namespace InstagramTools
                 {
                     Console.WriteLine("Press 1 to Show User Overview");
                     Console.WriteLine("Press 2 to UnFollow NonFollower");
+                    Console.WriteLine("Press 3 to UnFollow All");
                     Console.WriteLine("Press esc key to exit");
 
                     key = Console.ReadKey();
