@@ -20,9 +20,11 @@ namespace InstagramTools.Commands
             // get currently logged in user
             var currentUser = await InstaApi.GetCurrentUserAsync();
 
-            // get self folling
+            Console.WriteLine("Get All followings..");
             var followings = await InstaApi.GetUserFollowingAsync(currentUser.Value.UserName, PaginationParameters.MaxPagesToLoad(100));
             var countAll = followings.Value.Count;
+            Console.WriteLine("Get All followings finished. count all is " + countAll);
+            Console.WriteLine("Start unfollow all...");
             var current = 0;
             foreach (var following in followings.Value)
             {
@@ -42,7 +44,7 @@ namespace InstagramTools.Commands
                 }
                 catch (System.Exception)
                 {
-                        Console.WriteLine($"{current * 100 / countAll } fatal error in unfollow {DateTime.Now.ToShortTimeString()} {following.UserName}");
+                    Console.WriteLine($"{current * 100 / countAll } fatal error in unfollow {DateTime.Now.ToShortTimeString()} {following.UserName}");
                 }
 
             }
